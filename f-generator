@@ -1,0 +1,7 @@
+import math
+
+# Generating a data file from a trial function to transform with Discrete Fourier Transform
+with open('data', "w") as output:
+    for i in range(500):
+        y = math.cos(float(i)/2)+math.cos(float(i)/4)
+        output.write(str(i) + ' ' + str(y) + '\n')
