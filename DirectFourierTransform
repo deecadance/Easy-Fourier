@@ -1,0 +1,44 @@
+import math
+
+# Get input file name
+input_name = raw_input('Set input file name: ')
+# Get output file name
+# output = raw_input('Set output file name: ')
+# Open input file
+# Open output file
+output_file = open('transform', 'w')
+
+with open(input_name, "r") as data_file:
+    # Count how many lines
+    n_rows = 0
+    for l in enumerate(data_file):
+        n_rows += 1
+
+with open(input_name, "r") as data_file:
+    # Count how many columns
+    n_columns = len(data_file.readline().strip().split(' '))
+
+# x, f(x) vector
+vec = []
+# Read file, store values (x, f(x)) to vector
+with open(input_name, "r") as data_file:
+    for row in range(n_rows):
+        vec.append(list(float(x) for x in data_file.readline().strip().split(' ')))
+
+# Each j is a transform-space point
+for j in range(n_rows):
+    # Set to zero the transform values in j point
+    ReF = 0 # Real part
+    ImF = 0 # Imaginary party
+    # Sum over all real-space points to calculate FT in j point
+    for i in range(n_rows):
+        a = int(((0.5*n_rows)+i)%n_rows)
+        b = int(((0.5*n_rows)-i)%n_rows)
+        ReF += (vec[a][1]+vec[b][1])*math.cos(2.0*math.pi*vec[i][0]*j/n_rows)
+        ImF += (vec[a][1]-vec[b][1]) * math.cos(2.0*math.pi*vec[i][0]*j/n_rows)
+        AbsF = math.sqrt(ReF*ReF+ImF*ImF) # Calculate absolute value
+    # For each step, write to file
+    output_file.write(str(j) + ' ' + str(ReF) + ' ' + str(ImF) + ' ' + str(AbsF) + '\n')
+
+#Close output file
+output_file.close() 
