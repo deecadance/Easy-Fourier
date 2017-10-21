@@ -1,0 +1,27 @@
+# Get input name from user
+input_name = raw_input('Set input file name: ')
+# Get output name
+#output_name = raw_input('Set output file name: ')
+output_name = input_name + '_new'
+# Get range to set to zero from user
+print('Set range you wish to set to zero: ')
+x_min = float(raw_input('x min: '))
+x_max = float(raw_input('x max: '))
+
+# Read file
+with open(input_name, "r") as data_file:
+    # Temporary store data to a list
+    data = data_file.readlines()
+    # Run through list
+    for line in enumerate(data):
+        # Find range which user gave in input
+        x = float(line[1].split(' ')[0])
+        if x_min <= x <= x_max:
+            # Set f(x) values to zero in this interval
+            new_line = str(x) + ' ' + '0\n'
+            data[line[0]] = new_line
+
+# Write list to new file
+with open(output_name, "w") as new_file:
+    for line in data:
+        new_file.write(line)
